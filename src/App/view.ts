@@ -2,7 +2,7 @@ import { div, h1, input, label, makeDOMDriver, span, VNode } from '@cycle/dom';
 
 import { Stream } from 'xstream';
 
-import { State } from '@root/model';
+import { State } from '@root/App/model';
 
 function roundAmount(amount: number) {
   return amount.toFixed(2);

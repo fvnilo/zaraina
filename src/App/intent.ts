@@ -2,7 +2,7 @@ import { DOMSource } from '@cycle/dom';
 
 import xs, { Stream } from 'xstream';
 
-import { CalculationTarget } from '@root/model';
+import { CalculationTarget } from '@root/App/model';
 
 export interface Action {
   target: CalculationTarget;

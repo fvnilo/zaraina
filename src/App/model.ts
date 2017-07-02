@@ -1,6 +1,6 @@
 import { Stream } from 'xstream';
 
-import { Action } from '@root/intent';
+import { Action } from '@root/App/intent';
 
 export interface State {
   billTotal: number;
