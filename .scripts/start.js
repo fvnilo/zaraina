@@ -41,7 +41,7 @@ const config = {
     new webpack.HotModuleReplacementPlugin(),
     new ProgressBarPlugin(),
     new HtmlWebpackPlugin({
-      template: path.resolve(projectRoot, 'index.html')
+      template: path.resolve(projectRoot, 'public', 'index.html')
     })
   ],
   devtool: 'inline-source-map'
