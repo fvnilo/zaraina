@@ -6,6 +6,7 @@
     "chalk": "^2.0.1",
     "cross-spawn": "^5.1.0",
     "fs-extra": "^3.0.1",
+    "html-webpack-plugin": "^2.29.0",
     "mkdirp": "^0.5.1",
     "offline-plugin": "^4.8.1",
     "path": "^0.12.7",

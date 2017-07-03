@@ -3,6 +3,7 @@
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const path = require('path')
 
@@ -18,7 +19,7 @@ const config = {
     './src/'
   ],
   output: {
-    filename: 'app.js',
+    filename: 'app.[hash].js',
     path: '/'
   },
   resolve: {
@@ -38,7 +39,10 @@ const config = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new ProgressBarPlugin()
+    new ProgressBarPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.resolve(projectRoot, 'index.html')
+    })
   ],
   devtool: 'inline-source-map'
 };

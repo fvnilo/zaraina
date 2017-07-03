@@ -1,24 +1,26 @@
-'use strict'
+'use strict';
 
-const fs = require('fs-extra')
-const path = require('path')
-const mkdirp = require('mkdirp')
-const webpack = require('webpack')
-const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const fs = require('fs-extra');
+const path = require('path');
+const mkdirp = require('mkdirp');
 
-const buildPath = path.join(process.cwd(), 'build')
-const publicPath = path.join(process.cwd(), 'public')
+const webpack = require('webpack');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const buildPath = path.join(process.cwd(), 'build');
+const publicPath = path.join(process.cwd(), 'public');
 
 const projectRoot = path.resolve(__dirname, '../');
 
-mkdirp.sync(buildPath)
+mkdirp.sync(buildPath);
 
 const compiler = webpack({
   entry: [
     './src/'
   ],
   output: {
-    filename: 'app.js',
+    filename: 'app.[hash].js',
     path: buildPath
   },
   resolve: {
@@ -38,7 +40,10 @@ const compiler = webpack({
   },
   plugins: [
     new ProgressBarPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ minimize: true })
+    new webpack.optimize.UglifyJsPlugin({ minimize: true }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(projectRoot, 'index.html')
+    })
   ]
 })
 
