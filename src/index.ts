@@ -5,6 +5,9 @@ import { Stream } from 'xstream';
 
 import App from '@root/App';
 
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+OfflinePluginRuntime.install();
+
 export interface Sources {
   DOM: DOMSource;
 }

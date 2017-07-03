@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const OfflinePlugin = require('offline-plugin');
 const path = require('path')
 
 const host = 'http://localhost';
@@ -42,6 +42,31 @@ const config = {
     new ProgressBarPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(projectRoot, 'public', 'index.html')
+    }),
+    new OfflinePlugin({
+      publicPath: '/',
+      caches: {
+        main: [
+          'icons/launcher-zaraina-48x48.png',
+          'icons/launcher-zaraina-72x72.png',
+          'icons/launcher-zaraina-96x96.png',
+          'icons/launcher-zaraina-144x144.png',
+          'icons/launcher-zaraina-192x192.png',
+          'app.*.js',
+        ],
+        additional: [
+          ':externals:'
+        ],
+        optional: [
+          ':rest:'
+        ]
+      },
+      externals: [
+        '/'
+      ],
+      ServiceWorker: {
+        navigateFallbackURL: '/'
+      }
     })
   ],
   devtool: 'inline-source-map'
