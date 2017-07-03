@@ -12,66 +12,32 @@ const OfflinePlugin = require('offline-plugin');
 const buildPath = path.join(process.cwd(), 'build');
 const publicPath = path.join(process.cwd(), 'public');
 
+const webpackBaseConfig = require('./config/base');
+const offlineConfig = require('./config/offline');
+
 const projectRoot = path.resolve(__dirname, '../');
 
 mkdirp.sync(buildPath);
 
-const compiler = webpack({
-  entry: [
-    './src/'
-  ],
-  output: {
-    filename: 'app.[hash].js',
-    path: buildPath
-  },
-  resolve: {
-    alias: {
-      '@root': path.join(projectRoot, 'src'),
+const compiler = webpack(
+  Object.assign({}, webpackBaseConfig, {
+    entry: [
+      './src/'
+    ],
+    output: {
+      filename: 'app.[hash].js',
+      path: buildPath
     },
-    extensions: ['.ts', '.tsx', '.js']
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        exclude: /node_modules/
-      }
+    plugins: [
+      new ProgressBarPlugin(),
+      new webpack.optimize.UglifyJsPlugin({ minimize: true }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(projectRoot, 'public', 'index.html')
+      }),
+      new OfflinePlugin(offlineConfig)
     ]
-  },
-  plugins: [
-    new ProgressBarPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ minimize: true }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(projectRoot, 'public', 'index.html')
-    }),
-    new OfflinePlugin({
-      publicPath: '/',
-      caches: {
-        main: [
-          'icons/launcher-zaraina-48x48.png',
-          'icons/launcher-zaraina-72x72.png',
-          'icons/launcher-zaraina-96x96.png',
-          'icons/launcher-zaraina-144x144.png',
-          'icons/launcher-zaraina-192x192.png',
-          'app.*.js',
-        ],
-        additional: [
-          ':externals:'
-        ],
-        optional: [
-          ':rest:'
-        ]
-      },
-      externals: [
-        '/'
-      ],
-      ServiceWorker: {
-        navigateFallbackURL: '/'
-      }
-    })
-  ]
-});
+  })
+);
 
 compiler.run((err, stats) => {
   if (err) {
