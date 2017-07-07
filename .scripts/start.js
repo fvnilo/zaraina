@@ -30,8 +30,7 @@ const config = Object.assign({}, webpackBaseConfig, {
     new ProgressBarPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(projectRoot, 'public', 'index.html')
-    }),
-    new OfflinePlugin(offlineConfig)
+    })
   ],
   devtool: 'inline-source-map'
 });
