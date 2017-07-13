@@ -5,6 +5,8 @@ import { Stream } from 'xstream';
 
 import App from '@root/App';
 
+import '@root/styles';
+
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 OfflinePluginRuntime.install();
 
