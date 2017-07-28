@@ -4,11 +4,10 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OfflinePlugin = require('offline-plugin');
+
 const path = require('path');
 
 const webpackBaseConfig = require('./config/base');
-const offlineConfig = require('./config/offline');
 
 const host = 'http://localhost';
 const port = 8000;
