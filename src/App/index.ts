@@ -5,14 +5,12 @@ import { StateSource } from 'cycle-onionify';
 
 import xs, { Stream } from 'xstream';
 
-import { Sinks } from '@';
-
 import PeopleCount from '@/App/Steps/PeopleCount';
 import ServiceTips from '@/App/Steps/ServiceTips';
-import BillTotal from '@/App/Steps/BillTotal';
+import BillTotal, { State as BillTotalState } from '@/App/Steps/BillTotal';
 import IndividualTotal from '@/App/Steps/IndividualTotal';
 
-export type Reducer = () => number | undefined;
+import { StepOnion, Sinks, Sources } from '@/App/types';
 
 interface AppState {
   billTotal: number;
@@ -20,26 +18,23 @@ interface AppState {
   peopleCount: number;
 }
 
-export interface Sources {
-  DOM: DOMSource;
-  onion: StateSource<AppState>;
-}
+const billTotalLense = {
+  get: (state: AppState) => ({
+    billTotal: state.billTotal,
+    billTotalWithTips: state.billTotal * (1 + state.serviceTips),
+  }),
+  set: (state: AppState, childState: BillTotalState) =>
+    ({ ...state, billTotal: childState }),
+};
 
 function calculateIndividualTotal(state: AppState) {
   return (state.billTotal * (1 + state.serviceTips)) / state.peopleCount;
 }
 
-export default function main(sources: Sources): Sinks {
+export default function main(sources: Sources<AppState>): Sinks {
   const state$ = sources.onion.state$;
-  const billTotalLense = {
-    get: state => ({
-      billTotal: state.billTotal,
-      billTotalWithTips: state.billTotal * (1 + state.serviceTips),
-    }),
-    set: (state, childState) => ({ ...state, billTotal: childState }),
-  };
 
-  const indovidualTotal$ = state$
+  const individualTotal$ = state$
     .map(calculateIndividualTotal)
     .filter(individualTotal => !isNaN(individualTotal))
     .startWith(0);
@@ -47,19 +42,19 @@ export default function main(sources: Sources): Sinks {
   const peopleCountSinks = isolate(PeopleCount, 'peopleCount')(sources);
   const serviceTipsSinks = isolate(ServiceTips, 'serviceTips')(sources);
   const billTotalSinks = isolate(BillTotal, { onion: billTotalLense })(sources);
-  const indovidualTotalSinks = IndividualTotal(indovidualTotal$);
+  const individualTotalSinks = IndividualTotal(individualTotal$);
 
   const DOMSinks = xs.combine(
     peopleCountSinks.DOM,
     serviceTipsSinks.DOM,
     billTotalSinks.DOM,
-    indovidualTotalSinks.DOM,
+    individualTotalSinks.DOM,
   ).map(nodes => div(nodes));
 
   const onion = xs.merge(
-    peopleCountSinks.onion as Stream<Reducer>,
-    serviceTipsSinks.onion as Stream<Reducer>,
-    billTotalSinks.onion as Stream<Reducer>,
+    peopleCountSinks.onion as StepOnion,
+    serviceTipsSinks.onion as StepOnion,
+    billTotalSinks.onion as StepOnion,
   );
 
   return {

@@ -17,6 +17,7 @@
     "style-loader": "^0.18.2",
     "tape": "^4.7.0",
     "ts-loader": "^2.2.0",
+    "tslint": "^5.5.0",
     "typescript": "~2.3.0",
     "webpack": "^2.6.0",
     "webpack-dev-server": "^2.5.0"
@@ -31,6 +32,7 @@
   "scripts": {
     "start": "node .scripts/start.js",
     "test": "node .scripts/test.js",
-    "build": "node .scripts/build.js"
+    "build": "node .scripts/build.js",
+    "lint": "tslint -c tslint.json src/**/*.ts"
   }
 }

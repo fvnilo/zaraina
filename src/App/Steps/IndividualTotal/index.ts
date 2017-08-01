@@ -1,12 +1,16 @@
-import { div, span, VNode } from '@cycle/dom';
+import { div, span } from '@cycle/dom';
 
 import xs, { Stream } from 'xstream';
 
+import { View } from '@/App/types';
+
 interface Sinks {
-  DOM: Stream<VNode>;
+  DOM: View;
 }
 
-export default function IndividualTotal(state$: Stream<number>): Sinks {
+type State = Stream<number>;
+
+export default function IndividualTotal(state$: State): Sinks {
   const vdom$ = state$.map(state =>
     div([
       span('This means that everybody has to pay '),

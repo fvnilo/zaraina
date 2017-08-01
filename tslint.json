@@ -14,8 +14,6 @@
             true,
             "never-prefix"
         ],
-        "no-unused-variable": true,
-        "no-unused-imports": true,
         "object-literal-sort-keys": false,
         "ordered-imports": [
             false

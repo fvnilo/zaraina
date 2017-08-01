@@ -12,14 +12,6 @@ import '@/Stylesheets';
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 OfflinePluginRuntime.install();
 
-type State = number;
-type Reducer = (prev?: State) => State | undefined;
-
-export interface Sinks {
-  DOM: Stream<VNode>;
-  onion: Stream<Reducer>;
-}
-
 const main = onionify(App);
 
 const drivers = {
