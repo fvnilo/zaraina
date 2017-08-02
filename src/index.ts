@@ -1,28 +1,18 @@
 import { DOMSource, makeDOMDriver, VNode } from '@cycle/dom';
 import { run } from '@cycle/run';
 
+import onionify from 'cycle-onionify';
+
 import { Stream } from 'xstream';
 
-import App from '@root/App';
+import App from '@/App';
 
-import '@root/styles';
+import '@/Stylesheets';
 
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 OfflinePluginRuntime.install();
 
-export interface Sources {
-  DOM: DOMSource;
-}
-
-interface Sinks {
-  DOM: Stream<VNode>;
-}
-
-function main(sources: Sources): Sinks {
-  return {
-    DOM: App(sources),
-  };
-}
+const main = onionify(App);
 
 const drivers = {
   DOM: makeDOMDriver('#app'),

@@ -1,19 +1,68 @@
-import { VNode } from '@cycle/dom';
+import { VNode, div, DOMSource } from '@cycle/dom';
+import isolate from '@cycle/isolate';
 
-import { Stream } from 'xstream';
+import { StateSource } from 'cycle-onionify';
 
-import { Sources } from '@root';
+import xs, { Stream } from 'xstream';
 
-import intent, { Action } from '@root/App/intent';
-import model, { State } from '@root/App/model';
-import view from '@root/App/view';
+import PeopleCount from '@/App/Steps/PeopleCount';
+import ServiceTips from '@/App/Steps/ServiceTips';
+import BillTotal, { State as BillTotalState } from '@/App/Steps/BillTotal';
+import IndividualTotal from '@/App/Steps/IndividualTotal';
 
-type View = Stream<VNode>;
+import { StepOnion, Sinks, Sources } from '@/App/types';
 
-export default function main(sources: Sources): Stream<VNode> {
-  const action$: Stream<Action> = intent(sources.DOM);
-  const state$: Stream<State> = model(action$);
-  const view$: View = view(state$);
+interface AppState {
+  billTotal: number;
+  serviceTips: number;
+  peopleCount: number;
+}
 
-  return view$;
+const billTotalLense = {
+  get: (state: AppState) => ({
+    billTotal: state.billTotal,
+    billTotalWithTips: state.billTotal * (1 + state.serviceTips),
+  }),
+  set: (state: AppState, childState: BillTotalState) =>
+    ({ ...state, billTotal: childState }),
+};
+
+function calculateIndividualTotal(state: AppState) {
+  if (!state.peopleCount) {
+    return 0;
+  }
+
+  return (state.billTotal * (1 + state.serviceTips)) / state.peopleCount;
+}
+
+export default function main(sources: Sources<AppState>): Sinks {
+  const state$ = sources.onion.state$;
+
+  const individualTotal$ = state$
+    .map(calculateIndividualTotal)
+    .filter(individualTotal => !isNaN(individualTotal))
+    .startWith(0);
+
+  const peopleCountSinks = isolate(PeopleCount, 'peopleCount')(sources);
+  const serviceTipsSinks = isolate(ServiceTips, 'serviceTips')(sources);
+  const billTotalSinks = isolate(BillTotal, { onion: billTotalLense })(sources);
+  const individualTotalSinks = IndividualTotal(individualTotal$);
+
+  const DOMSinks = xs.combine(
+    peopleCountSinks.DOM,
+    serviceTipsSinks.DOM,
+    billTotalSinks.DOM,
+    individualTotalSinks.DOM,
+  ).map(nodes => div('.zaraina', nodes));
+
+  const onion = xs.merge(
+    peopleCountSinks.onion as StepOnion,
+    serviceTipsSinks.onion as StepOnion,
+    billTotalSinks.onion as StepOnion,
+  );
+
+  return {
+    DOM: DOMSinks,
+    onion,
+  };
 }

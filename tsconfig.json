@@ -2,16 +2,17 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@root": [
+      "@": [
         "src/index.ts"
       ],
-      "@root/*": [
+      "@/*": [
         "src/*"
       ]
     },
     "target": "es6",
     "module": "commonjs",
-    "sourceMap": true
+    "sourceMap": true,
+    "noImplicitAny": true
   },
   "exclude": [
     "node_modules"

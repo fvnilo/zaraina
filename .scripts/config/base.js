@@ -1,15 +1,13 @@
 const path = require('path');
 
-const offlineConfig = require('./offline');
-
 const projectRoot = path.resolve(__dirname, '../../');
 
 module.exports = {
   resolve: {
     alias: {
-      '@root': path.join(projectRoot, 'src'),
+      '@': path.join(projectRoot, 'src'),
     },
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js', '.less']
   },
   module: {
     rules: [
@@ -17,6 +15,23 @@ module.exports = {
         test: /\.tsx?$/,
         loader: 'ts-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            loader: "style-loader"
+          },
+          {
+            loader: "raw-loader"
+          },
+          {
+            loader: "less-loader"
+          },
+          {
+            loader: "postcss-loader"
+          }
+        ]
       }
     ]
   }
