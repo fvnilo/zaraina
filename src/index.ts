@@ -8,9 +8,7 @@ import { Stream } from 'xstream';
 import App from '@/App';
 
 import '@/Stylesheets';
-
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
-OfflinePluginRuntime.install();
+import '@/Offline';
 
 const main = onionify(App);
 
