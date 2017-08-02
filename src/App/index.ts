@@ -28,6 +28,10 @@ const billTotalLense = {
 };
 
 function calculateIndividualTotal(state: AppState) {
+  if (!state.peopleCount) {
+    return 0;
+  }
+
   return (state.billTotal * (1 + state.serviceTips)) / state.peopleCount;
 }
 
@@ -49,7 +53,7 @@ export default function main(sources: Sources<AppState>): Sinks {
     serviceTipsSinks.DOM,
     billTotalSinks.DOM,
     individualTotalSinks.DOM,
-  ).map(nodes => div(nodes));
+  ).map(nodes => div('.zaraina', nodes));
 
   const onion = xs.merge(
     peopleCountSinks.onion as StepOnion,

@@ -12,9 +12,9 @@ type State = Stream<number>;
 
 export default function IndividualTotal(state$: State): Sinks {
   const vdom$ = state$.map(state =>
-    div([
+    div('.individual-total.step', [
       span('This means that everybody has to pay '),
-      span(` ${state.toFixed(2)}$`),
+      span('.individual-total-amount', ` ${state.toFixed(2)}$`),
     ]),
   );
 

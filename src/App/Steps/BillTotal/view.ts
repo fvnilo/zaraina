@@ -8,9 +8,11 @@ import { State } from '@/App/Steps/BillTotal';
 
 export default function view(state$: Stream<State>): View {
   return state$.map(state =>
-    div([
+    div('.bill-total.step', [
       span('Our bill amount is '),
       input('.bill-total', { attrs: { type: 'number' }, props: { value: state.billTotal } }),
-      span(` $ which gives ${state.billTotalWithTips.toFixed(2)}$ with the tips.`),
+      span(' $ which gives '),
+      span('.with-tips', `${state.billTotalWithTips.toFixed(2)}$`),
+      span(' with the tips.'),
     ]));
 }

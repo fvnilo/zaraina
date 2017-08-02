@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "autoprefixer": "^7.1.2",
     "chalk": "^2.0.1",
     "cross-spawn": "^5.1.0",
     "css-loader": "^0.28.4",
@@ -13,7 +14,9 @@
     "mkdirp": "^0.5.1",
     "offline-plugin": "^4.8.1",
     "path": "^0.12.7",
+    "postcss-loader": "^2.0.6",
     "progress-bar-webpack-plugin": "^1.9.3",
+    "raw-loader": "^0.5.1",
     "style-loader": "^0.18.2",
     "tape": "^4.7.0",
     "ts-loader": "^2.2.0",

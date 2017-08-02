@@ -20,14 +20,18 @@ module.exports = {
         test: /\.less$/,
         use: [
           {
-            loader: "style-loader" // creates style nodes from JS strings
+            loader: "style-loader"
           },
           {
-            loader: "css-loader" // translates CSS into CommonJS
+            loader: "raw-loader"
           },
           {
-            loader: "less-loader" // compiles Less to CSS
-          }]
+            loader: "less-loader"
+          },
+          {
+            loader: "postcss-loader"
+          }
+        ]
       }
     ]
   }

@@ -1,0 +1,43 @@
+@import 'colors';
+
+input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dotted @lighter-input;
+  outline: none;
+
+  color: @lighter-input;
+  font-weight: 300;
+
+  text-align: center;
+
+  transition: all linear 0.2s;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+
+  &:focus {
+    border-style: solid;
+    border-color: @focused-input;
+    color: @focused-input;
+  }
+}
+
+select {
+  -webkit-appearance: none;
+
+  border: 0;
+  border-bottom: 1px solid @lighter-input;
+  border-radius: 0;
+  outline: none;
+
+  background: url('../assets/down-arrow.png') no-repeat;
+  background-size: 1em 1em;
+  background-position-x: 100%;
+  background-position-y: 100%;
+
+  font-weight: 300;
+}

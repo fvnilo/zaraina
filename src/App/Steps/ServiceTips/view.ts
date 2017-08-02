@@ -6,17 +6,17 @@ import { View } from '@/App/types';
 
 export default function view(state$: Stream<number>): View {
   return state$.map(state =>
-    div([
+    div('.service-tips.step', [
       span('The service was '),
       select('.service', [
         option(['-']),
-        option({ props: { value: 2 } }, ['Bad']),
-        option({ props: { value: 7 } }, ['Meh']),
-        option({ props: { value: 15 } }, ['Good']),
-        option({ props: { value: 20 } }, ['Awesome']),
+        option({ props: { value: 2 } }, ['bad']),
+        option({ props: { value: 7 } }, ['meh']),
+        option({ props: { value: 15 } }, ['good']),
+        option({ props: { value: 20 } }, ['awesome']),
       ]),
       span(' and we will leave a '),
-      input('.tips', { attrs: { type: 'number' }, props: { value: state * 100 } }),
+      input('.tips.input', { attrs: { type: 'number' }, props: { value: state * 100 } }),
       span(' % tip.'),
     ]));
 }
