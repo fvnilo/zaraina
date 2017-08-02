@@ -12,18 +12,18 @@ Zaraina is a very simple PWA that tells you how much does everybody has to pay a
 
 I just wanted to make some thing simple to experiment with:
 
-- TypeScript
-- Cycle.JS
-  - Cycle-Onionify
-- PWA's
+- [TypeScript](https://www.typescriptlang.org/)
+- [Cycle.js](https://cycle.js.org/)
+  - [Cycle-Onionify](https://github.com/staltz/cycle-onionify)
+- [PWA](https://developers.google.com/web/progressive-web-apps/)
 
-**Conclusion**: I really like Cycle.js and would like to create more projects with it. :-).
+**Conclusion**: I really like [Cycle.js](https://cycle.js.org/) and would like to create more projects with it. :-).
 
 ## How?
 
-The project was generated with create-cycle-app using the cycle-ts-simple flavor. 
+The project was generated with [create-cycle-app](https://github.com/cyclejs-community/create-cycle-app) using the [cycle-scripts-ts-simple](https://www.npmjs.com/package/cycle-scripts-ts-simple) flavor. 
 
-The stylesheets are written in less.
+The stylesheets are written in [less](http://lesscss.org/).
 
 ## Quick start
 
